@@ -1,6 +1,6 @@
 package com.udacity.jdnd.course3.critter.entities;
 
-import com.udacity.jdnd.course3.critter.user.EmployeeSkill;
+import com.udacity.jdnd.course3.critter.enums.EmployeeSkill;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
