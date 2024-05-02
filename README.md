@@ -84,23 +84,23 @@ To run the application locally, follow these steps:
 
 #### Check Availability
 
-![](./submission/01 Check Availability.png)
+![](./submission/01.png)
 
 #### Save Schedule
 
-![](./submission/02 Save Schedule.png)
+![](./submission/02.png)
 
 #### Find Schedule By Owner
 
-![](./submission/03 Find Schedule By Owner.png)
+![](./submission/03.png)
 
 #### Find Schedule By Pet
 
-![](./submission/04 Find Schedule By Pet.png)
+![](./submission/04.png)
 
 #### Find Schedule By Employee
 
-![](./submission/05 Find Schedule By Employee.png)
+![](./submission/05.png)
 
 ## License
 
