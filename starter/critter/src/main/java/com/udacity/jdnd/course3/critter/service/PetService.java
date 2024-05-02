@@ -1,6 +1,5 @@
 package com.udacity.jdnd.course3.critter.service;
 
-import com.udacity.jdnd.course3.critter.dto.PetDTO;
 import com.udacity.jdnd.course3.critter.entities.Customer;
 import com.udacity.jdnd.course3.critter.entities.Pet;
 import com.udacity.jdnd.course3.critter.repository.CustomerRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class PetService {
@@ -20,14 +18,14 @@ public class PetService {
     @Autowired
     CustomerRepository customerRepository;
 
-    public Long savePet(PetDTO petDTO) {
+    public Long savePet(Pet newPet) {
+        newPet.setId(null);
         // Check if Owner is present
-        Long ownerId = petDTO.getOwnerId();
+        Long ownerId = newPet.getOwnerId();
         Optional<Customer> owner = customerRepository.findById(ownerId);
         if(owner.isPresent()) {
             Customer petOwner = owner.get();
             // Link Owner with Pet
-            Pet newPet = this.petFromDto(petDTO);
             newPet.setCustomer(petOwner);
             Long newPetId = petRepository.save(newPet).getId();
 
@@ -40,39 +38,17 @@ public class PetService {
         return null;
     }
 
-    public PetDTO getPetById(Long petId) {
+    public Pet getPetById(Long petId) {
         Optional<Pet> pet = petRepository.findById(petId);
-        return pet.map(this::dtoFromPet).orElse(null);
+        return pet.orElse(null);
     }
 
-    public List<PetDTO> getAllPets() {
-        return petRepository.findAll().stream().map(this::dtoFromPet).collect(Collectors.toList());
+    public List<Pet> getAllPets() {
+        return petRepository.findAll();
     }
 
-    public List<PetDTO> getPetByOwnerId(Long ownerId) {
+    public List<Pet> getPetByOwnerId(Long ownerId) {
         Optional<List<Pet>> pets = petRepository.findPetsByOwnerId(ownerId);
-        return pets.map(petList -> petList.stream().map(this::dtoFromPet).collect(Collectors.toList())).orElse(null);
-    }
-
-    private Pet petFromDto(PetDTO dto) {
-        Pet pet = new Pet();
-        pet.setId(dto.getId());
-        pet.setType(dto.getType());
-        pet.setName(dto.getName());
-        pet.setOwnerId(dto.getOwnerId());
-        pet.setBirthDate(dto.getBirthDate());
-        pet.setNotes(dto.getNotes());
-        return pet;
-    }
-
-    private PetDTO dtoFromPet(Pet pet) {
-        PetDTO petDTO = new PetDTO();
-        petDTO.setId(pet.getId());
-        petDTO.setType(pet.getType());
-        petDTO.setName(pet.getName());
-        petDTO.setOwnerId(pet.getOwnerId());
-        petDTO.setBirthDate(pet.getBirthDate());
-        petDTO.setNotes(pet.getNotes());
-        return petDTO;
+        return pets.orElse(null);
     }
 }
